@@ -125,14 +125,18 @@ def main():
 
         # Check if total expenses exceed, match, or are below Future You limit
         if total_expenses > future_you_limit:
-            st.write(f"### Uh oh! You are over your Future You limit by ${total_expenses - future_you_limit:.2f}. Consider adjusting your expenses or revisiting the Future You tool.")
-            
-            # Pie chart showing percentage over the limit
+            over_limit = total_expenses - future_you_limit
+            st.write(f"### Uh oh! You are over your Future You limit by ${over_limit:.2f}. Consider adjusting your expenses or revisiting the Future You tool.")
+
+            # Calculate percentages for pie chart
+            over_percentage = (over_limit / future_you_limit) * 100
             allocation_data = {
                 'Future You Limit': future_you_limit,
-                'Over Future You Limit': total_expenses - future_you_limit
+                f'Over Future You Limit ({over_percentage:.1f}%)': over_limit
             }
-            fig2 = create_pie_chart(allocation_data, 'Comparison to Future You Limit', colors=['#ff9999', '#66b3ff'])
+
+            # Pie chart showing over limit as percentage of the goal
+            fig2 = create_pie_chart(allocation_data, 'Expenses vs Future You Limit', colors=['#ff9999', '#66b3ff'])
             st.pyplot(fig2)
 
         elif total_expenses == future_you_limit:
