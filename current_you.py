@@ -83,65 +83,25 @@ def main():
     
     st.title("Personal Finance Tracker 💰")
 
-    # Add descriptive text below the title
-    st.write("""
-    In this section we want to help understand you - today! What do you like & want to do with your money that helps you live the life you want to live today.
-    """)
-
     # Initialize session state variables
     if 'total_expenses' not in st.session_state:
         st.session_state.total_expenses = 0.0
-    if 'monthly_income' not in st.session_state:
-        st.session_state.monthly_income = 0.0
-    if 'savings' not in st.session_state:
-        st.session_state.savings = 0.0
-    if 'investments' not in st.session_state:
-        st.session_state.investments = 0.0
-
-    # First Section: Overview
-    st.header("Monthly Overview")
-    col1, col2 = st.columns(2)
-    with col1:
-        monthly_income = st.number_input("Enter your monthly income:", min_value=0.0, step=100.0)
-        st.session_state.monthly_income = monthly_income
-        savings = st.number_input("Amount allocated to savings:", min_value=0.0, step=10.0)
-        st.session_state.savings = savings
-    
-    with col2:
-        investments = st.number_input("Amount allocated to investments:", min_value=0.0, step=10.0)
-        st.session_state.investments = investments
-        total_expenses = st.number_input("Total monthly expenses:", min_value=0.0, step=10.0)
-        st.session_state.total_expenses = total_expenses
-
-    # Calculate and display results for the first section
-    if st.button("Calculate Overview"):
-        total_allocations = savings + investments + total_expenses
-
-        st.subheader("Results")
-        st.write(f"**Total Monthly Income:** ${monthly_income:.2f}")
-        st.write(f"**Total Allocations:** ${total_allocations:.2f}")
-        st.write(f"**Difference:** ${monthly_income - total_allocations:.2f}")
-
-        # Pie chart for income allocation
-        income_data = {
-            'Savings': savings,
-            'Investments': investments,
-            'Expenses': total_expenses,
-        }
-        unallocated = max(0, monthly_income - total_allocations)
-        if unallocated > 0:
-            income_data['Unallocated'] = unallocated
-
-        fig = create_pie_chart(income_data, 'Income Allocation')
-        st.pyplot(fig)
+    if 'fixed_expenses' not in st.session_state:
+        st.session_state.fixed_expenses = []
+    if 'variable_expenses' not in st.session_state:
+        st.session_state.variable_expenses = []
 
     # Second Section: Expense Breakdown
     st.header("Expense Breakdown")
-    
-    st.subheader("Future You Tool")
-    future_you_expense_limit = st.number_input("Enter your monthly expense limit from the Future You tool:", min_value=0.0, step=10.0)
+    st.write("""
+    Enter your current expense breakdown and see how it compares to the expense limit suggested by the 'Future You' tool.
+    """)
+
+    # Input for "Future You" expense limit
+    future_you_expense_limit = st.number_input("Enter your expense limit from the 'Future You' tool:", min_value=0.0, step=10.0)
 
     st.subheader("Fixed Expenses")
+
     # Fixed expenses default categories
     fixed_expenses_data = {}
     fixed_categories = ['Housing', 'Utilities', 'Insurance', 'Transportation', 'Debt Payments', 'Groceries']
@@ -149,13 +109,17 @@ def main():
         amount = st.number_input(f"{category}:", min_value=0.0, step=10.0)
         fixed_expenses_data[category] = amount
 
-    # Additional fixed expenses
+    # Initialize counters for additional expenses
     if 'fixed_counter' not in st.session_state:
         st.session_state.fixed_counter = 0
+    if 'variable_counter' not in st.session_state:
+        st.session_state.variable_counter = 0
 
+    # Function to add new fixed expense
     if st.button("➕ Add Fixed Expense Category"):
         st.session_state.fixed_counter += 1
 
+    # Display additional fixed expense inputs
     for i in range(st.session_state.fixed_counter):
         extra_category = st.text_input(f"Fixed Expense Category {i+1} Name:", key=f"fixed_extra_name_{i}")
         extra_amount = st.number_input(f"{extra_category} Amount:", min_value=0.0, step=10.0, key=f"fixed_extra_amount_{i}")
@@ -163,6 +127,7 @@ def main():
             fixed_expenses_data[extra_category] = extra_amount
 
     st.subheader("Variable Expenses")
+
     # Variable expenses default categories
     variable_expenses_data = {}
     variable_categories = ['Fun (trips, vacations etc.)']
@@ -170,13 +135,11 @@ def main():
         amount = st.number_input(f"{category}:", min_value=0.0, step=10.0)
         variable_expenses_data[category] = amount
 
-    # Additional variable expenses
-    if 'variable_counter' not in st.session_state:
-        st.session_state.variable_counter = 0
-
+    # Function to add new variable expense
     if st.button("➕ Add Variable Expense Category"):
         st.session_state.variable_counter += 1
 
+    # Display additional variable expense inputs
     for i in range(st.session_state.variable_counter):
         extra_category = st.text_input(f"Variable Expense Category {i+1} Name:", key=f"variable_extra_name_{i}")
         extra_amount = st.number_input(f"{extra_category} Amount:", min_value=0.0, step=10.0, key=f"variable_extra_amount_{i}")
@@ -189,21 +152,29 @@ def main():
         expense_data = {**fixed_expenses_data, **variable_expenses_data}
         calculated_total_expenses = sum(expense_data.values())
 
-        if abs(calculated_total_expenses - st.session_state.total_expenses) > 0.01:
-            st.warning(f"The sum of your expenses (${calculated_total_expenses:.2f}) does not match the total expenses you entered (${st.session_state.total_expenses:.2f}). Please adjust your entries.")
+        # Compare with "Future You" expense limit
+        if calculated_total_expenses > future_you_expense_limit:
+            st.warning(f"Your total expenses (${calculated_total_expenses:.2f}) exceed your limit from the 'Future You' tool (${future_you_expense_limit:.2f}) by ${calculated_total_expenses - future_you_expense_limit:.2f}.")
+        elif calculated_total_expenses < future_you_expense_limit:
+            st.success(f"Your total expenses (${calculated_total_expenses:.2f}) are below your limit from the 'Future You' tool (${future_you_expense_limit:.2f}) by ${future_you_expense_limit - calculated_total_expenses:.2f}.")
         else:
-            st.subheader("Expense Comparison")
-            difference = future_you_expense_limit - calculated_total_expenses
-            if difference > 0:
-                st.write(f"**Great job!** You are ${difference:.2f} below your Future You expense limit.")
-            elif difference < 0:
-                st.write(f"**Heads up!** You are ${-difference:.2f} above your Future You expense limit.")
-            else:
-                st.write("You have hit your Future You expense limit exactly.")
+            st.info(f"Your total expenses (${calculated_total_expenses:.2f}) exactly match your limit from the 'Future You' tool (${future_you_expense_limit:.2f}).")
 
-            # Bar chart for expense breakdown
-            fig = create_bar_chart(expense_data, 'Expense Breakdown')
-            st.pyplot(fig)
+        fixed_expenses_total = sum(fixed_expenses_data.values())
+        variable_expenses_total = sum(variable_expenses_data.values())
+        
+        # Bar chart for expense breakdown
+        fig = create_bar_chart(expense_data, 'Expense Breakdown')
+        st.pyplot(fig)
+
+        # Create a new pie chart for income and expenses allocation
+        allocation_data = {
+            'Fixed Expenses': fixed_expenses_total,
+            'Variable Expenses': variable_expenses_total,
+        }
+
+        fig2 = create_pie_chart(allocation_data, 'Expense Allocation')
+        st.pyplot(fig2)
 
 if __name__ == "__main__":
     main()
