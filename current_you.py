@@ -132,7 +132,7 @@ def main():
             over_percentage = (over_limit/future_you_limit) * 100
             allocation_data = {
                 'Future You Limit': future_you_limit,
-                f'Over Future You Limit ({over_percentage:.1f}%)': over_percentage
+                f'Over Future You Limit ({over_percentage:.1f}%)': over_limit - future_you_limit
             }
 
             # Pie chart showing over limit as percentage of the goal
