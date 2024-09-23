@@ -35,25 +35,16 @@ def set_custom_styles():
             border: 2px solid #2e6ef7;
             border-radius: 6px;
         }
+        /* Expense Calculation Results Styling */
+        .stApp .stMarkdown h3 {
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            color: #2e6ef7;
+        }
         </style>
         """,
         unsafe_allow_html=True
     )
-
-# Function to calculate fixed expense ratio
-def calculate_fixed_expense_ratio(income, fixed_expenses):
-    if income == 0:
-        return 0
-    return (fixed_expenses / income) * 100
-
-# Function to generate feedback message based on ratio
-def get_ratio_message(ratio):
-    if ratio > 80:
-        return "Your fixed expenses are high compared to your income. This may limit your ability to meet other financial goals."
-    elif 60 <= ratio <= 80:
-        return "Your fixed expenses are moderate but worth monitoring, especially for long-term planning."
-    else:
-        return "Your fixed expense ratio is in a healthy range, allowing more flexibility for savings and investments."
 
 # Function to create pie chart
 def create_pie_chart(data, title, colors=None):
@@ -88,9 +79,9 @@ def main():
     st.subheader("Step 1: Enter Your Expenses")
 
     st.write("""
-    In this section we want to help understand you - today! What do you like & want to do with your money that helps you live the life you want to live today.
+    In this step, we focus on getting to know your current financial habits. What do you enjoy, and how do you want to spend your money to live your best life today?
 
-    We will look at your spending categories to give some insights on how you spend your money and how this compares to the money you want to spend to reach your dream life goals. When inputting expenses: please make it as accurate as possible for the best results. Reference your last three months of income & spending to average a normal month. Checking your credit card / debit card bills is a great way to go. We find this also makes it easier to be honest with expenses.
+    We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'll need to reach your ideal future. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start.
     """)
 
     # Initialize session state variables
@@ -115,7 +106,7 @@ def main():
         amount = st.number_input(f"{category}:", min_value=0.0, step=10.0)
         variable_expenses_data[category] = amount
 
-    # Input additional expenses
+    # Input expense limit from Future You tool
     st.subheader("Step 2: Enter Expense Limit from 'Future You' Tool")
     future_you_limit = st.number_input("Enter the expense limit suggested by the Future You tool:", min_value=0.0, step=10.0)
 
@@ -132,23 +123,32 @@ def main():
         st.write(f"**Total Expenses:** ${total_expenses:.2f}")
         st.write(f"**Expense Limit (Future You):** ${future_you_limit:.2f}")
 
+        # Check if total expenses exceed Future You limit
         if total_expenses > future_you_limit:
-            st.write(f"**Uh oh! You are above your Future You limit by ${total_expenses - future_you_limit:.2f}. Try playing around with certain expense categories to see if you can get it within your Future You limit. If not, let's revisit the Future You tool and see where we can make adjustments so that you can enjoy life now, and enjoy life in the future!**")
+            st.write(f"### Uh oh! You are over your Future You limit by ${total_expenses - future_you_limit:.2f}. Consider adjusting your expenses or revisiting the Future You tool.")
+            
+            # Pie chart showing percentage over the limit
+            allocation_data = {
+                'Future You Limit': future_you_limit,
+                'Over Future You Limit': total_expenses - future_you_limit
+            }
         else:
-            st.write(f"**Great! You are below your Future You limit by ${future_you_limit - total_expenses:.2f}.**")
+            st.write(f"### Great! You are under your Future You limit by ${future_you_limit - total_expenses:.2f}.")
+            
+            # Pie chart showing remaining limit
+            allocation_data = {
+                'Expenses': total_expenses,
+                'Remaining from Future You Limit': future_you_limit - total_expenses
+            }
+
+        # Display pie chart comparison
+        fig2 = create_pie_chart(allocation_data, 'Comparison to Future You Limit', colors=['#ff9999', '#66b3ff'])
+        st.pyplot(fig2)
 
         # Bar chart for expense breakdown
         all_expenses_data = {**fixed_expenses_data, **variable_expenses_data}
         fig = create_bar_chart(all_expenses_data, 'Expense Breakdown')
         st.pyplot(fig)
-
-        # Pie chart for expenses vs Future You limit
-        allocation_data = {
-            'Expenses': total_expenses,
-            'Remaining from Future You Limit': max(0, future_you_limit - total_expenses)
-        }
-        fig2 = create_pie_chart(allocation_data, 'Comparison to Future You Limit', colors=['#ff9999','#66b3ff'])
-        st.pyplot(fig2)
 
 if __name__ == "__main__":
     main()
