@@ -123,7 +123,7 @@ def main():
         st.write(f"**Total Expenses:** ${total_expenses:.2f}")
         st.write(f"**Expense Limit (Future You):** ${future_you_limit:.2f}")
 
-        # Check if total expenses exceed Future You limit
+        # Check if total expenses exceed, match, or are below Future You limit
         if total_expenses > future_you_limit:
             st.write(f"### Uh oh! You are over your Future You limit by ${total_expenses - future_you_limit:.2f}. Consider adjusting your expenses or revisiting the Future You tool.")
             
@@ -132,6 +132,12 @@ def main():
                 'Future You Limit': future_you_limit,
                 'Over Future You Limit': total_expenses - future_you_limit
             }
+            fig2 = create_pie_chart(allocation_data, 'Comparison to Future You Limit', colors=['#ff9999', '#66b3ff'])
+            st.pyplot(fig2)
+
+        elif total_expenses == future_you_limit:
+            st.write(f"### Great! Your current expenses are in line with your Future You goals. This means you are on track to achieve your future goals, while also living life as you are today.")
+
         else:
             st.write(f"### Great! You are under your Future You limit by ${future_you_limit - total_expenses:.2f}.")
             
@@ -140,10 +146,8 @@ def main():
                 'Expenses': total_expenses,
                 'Remaining from Future You Limit': future_you_limit - total_expenses
             }
-
-        # Display pie chart comparison
-        fig2 = create_pie_chart(allocation_data, 'Comparison to Future You Limit', colors=['#ff9999', '#66b3ff'])
-        st.pyplot(fig2)
+            fig2 = create_pie_chart(allocation_data, 'Comparison to Future You Limit', colors=['#ff9999', '#66b3ff'])
+            st.pyplot(fig2)
 
         # Bar chart for expense breakdown
         all_expenses_data = {**fixed_expenses_data, **variable_expenses_data}
