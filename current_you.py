@@ -88,7 +88,9 @@ def main():
     st.subheader("Step 1: Enter Your Expenses")
 
     st.write("""
-    In this section, enter all your monthly fixed and variable expenses. Use the last three months as a reference for more accurate data. After entering your expenses, you'll input the expense limit from the 'Future You' tool.
+    In this section we want to help understand you - today! What do you like & want to do with your money that helps you live the life you want to live today.
+
+    We will look at your spending categories to give some insights on how you spend your money and how this compares to the money you want to spend to reach your dream life goals. When inputting expenses: please make it as accurate as possible for the best results. Reference your last three months of income & spending to average a normal month. Checking your credit card / debit card bills is a great way to go. We find this also makes it easier to be honest with expenses.
     """)
 
     # Initialize session state variables
@@ -131,7 +133,7 @@ def main():
         st.write(f"**Expense Limit (Future You):** ${future_you_limit:.2f}")
 
         if total_expenses > future_you_limit:
-            st.write(f"**You are above your Future You limit by ${total_expenses - future_you_limit:.2f}.**")
+            st.write(f"**Uh oh! You are above your Future You limit by ${total_expenses - future_you_limit:.2f}. Try playing around with certain expense categories to see if you can get it within your Future You limit. If not, let's revisit the Future You tool and see where we can make adjustments so that you can enjoy life now, and enjoy life in the future!**")
         else:
             st.write(f"**Great! You are below your Future You limit by ${future_you_limit - total_expenses:.2f}.**")
 
