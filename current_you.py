@@ -129,7 +129,7 @@ def main():
             st.write(f"### Uh oh! You are over your Future You limit by ${over_limit:.2f}. Consider adjusting your expenses or revisiting the Future You tool.")
 
             # Calculate percentages for pie chart
-            over_percentage = (over_limit) * 100
+            over_percentage = (over_limit/future_you_limit) * 100
             allocation_data = {
                 'Future You Limit': future_you_limit,
                 f'Over Future You Limit ({over_percentage:.1f}%)': over_limit
