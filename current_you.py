@@ -74,14 +74,14 @@ def main():
     # Apply custom styles
     set_custom_styles()
 
-    st.title("Expense Breakdown Tracker")
+    st.title("Current You Tool")
 
     st.subheader("Step 1: Enter Your Expenses")
 
     st.write("""
-    In this step, we focus on getting to know your current financial habits. What do you enjoy, and how do you want to spend your money to live your best life today?
+    In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?
 
-    We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'll need to reach your ideal future. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start.
+    We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'd like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start.
     """)
 
     # Initialize session state variables
@@ -129,7 +129,7 @@ def main():
             st.write(f"### Uh oh! You are over your Future You limit by ${over_limit:.2f}. Consider adjusting your expenses or revisiting the Future You tool.")
 
             # Calculate percentages for pie chart
-            over_percentage = (over_limit / future_you_limit) * 100
+            over_percentage = (over_limit) * 100
             allocation_data = {
                 'Future You Limit': future_you_limit,
                 f'Over Future You Limit ({over_percentage:.1f}%)': over_limit
