@@ -116,7 +116,7 @@ def main():
         unsafe_allow_html=True
     )
 
-    st.markdown("<h2 class='section-header'>Step 1: Enter Your Expenses</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 class='section-header'>Step 1: Enter Your Monthly Expenses</h2>", unsafe_allow_html=True)
 
     # New Section: Enter Post-Tax Income
     st.markdown("<h4 class='section2-header'>Monthly Income</h4>", unsafe_allow_html=True)
@@ -130,7 +130,7 @@ def main():
         # Initialize with default variable expense categories
         st.session_state.variable_expenses = {'Fun (trips, vacations etc.)': 0.0}
 
-    st.markdown("<h4 class='section2-header'>Fixed Expenses</h4>", unsafe_allow_html=True)
+    st.markdown("<h4 class='section2-header'>Monthly Fixed Expenses</h4>", unsafe_allow_html=True)
     # Display fixed expenses inputs
     fixed_expenses_to_delete = []
     for category in st.session_state.fixed_expenses:
@@ -156,7 +156,7 @@ def main():
         else:
             st.warning("Please enter a category name.")
 
-    st.markdown("<h4 class='section2-header'>Variable Expenses</h4>", unsafe_allow_html=True)
+    st.markdown("<h4 class='section2-header'>Monthly Variable Expenses</h4>", unsafe_allow_html=True)
     # Display variable expenses inputs
     variable_expenses_to_delete = []
     for category in st.session_state.variable_expenses:
