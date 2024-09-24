@@ -81,7 +81,7 @@ def main():
     st.write("""
     In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?
 
-    We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'd like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start.
+    We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'd like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyse your personal finances, joint finances with a partner, or family finances.
     """)
 
     # New Section: Enter Post-Tax Income
@@ -172,11 +172,11 @@ def main():
         difference = total_expenses - future_you_limit
 
         if difference <= 0:
-            st.write(f"**You are within your Expense Limit by ${abs(difference):.2f}.**")
-            st.write("### Amazing, you are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.")
+            st.write(f"### Amazing! You are ${abs(difference):.2f} below your Future You limit.###")
+            st.write("### You are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.")
         else:
-            st.write(f"**Your current expenses are ${difference:.2f} higher than what you need to meet your goals.**")
-            st.write("### Uh oh! Your expenses exceed your Future You limit.")
+            st.write(f"### Uh oh! Your current expenses are ${difference:.2f} over what you need to meet your goals.###")
+            st.write("### Your expenses exceed your Future You limit.")
 
             # Calculate fixed expenses ratio
             if total_expenses > 0:
