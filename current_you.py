@@ -113,7 +113,7 @@ def main():
     """)
 
     # New Section: Enter Post-Tax Income
-    st.markdown("<h2 class='section2-header'>Enter Your Post-Tax Income</h2>", unsafe_allow_html=True)
+    st.markdown("<h4 class='section2-header'>Enter Your Post-Tax Income</h4>", unsafe_allow_html=True)
     post_tax_income = st.number_input("Enter your monthly post-tax income:", min_value=0.0, step=100.0)
 
     # Initialize session state variables
