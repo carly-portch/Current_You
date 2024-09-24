@@ -195,7 +195,7 @@ def main():
         total_variable = sum(variable_expenses_data.values())
         total_expenses = total_fixed + total_variable
 
-        st.subheader("Results")
+        st.markdown("<h2 class='section-header'>Results</h2>", unsafe_allow_html=True)
 
         st.write(f"**Total Fixed Expenses:** ${total_fixed:.2f}")
         st.write(f"**Total Variable Expenses:** ${total_variable:.2f}")
