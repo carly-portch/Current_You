@@ -104,17 +104,13 @@ def main():
 
     st.markdown("<h1 class='title'>The Current You Tool</h1>", unsafe_allow_html=True)
 
-    st.markdown("<h2 class='section-header'>Step 1: Enter Your Expenses</h2>", unsafe_allow_html=True)
+    <div class='description'>
+    <h5>In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?
+    <br>We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'd like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyze your personal finances, joint finances with a partner, or family finances.
+    </h5>
+    </div>
 
-    st.markdown(
-        """
-        <h5>
-        In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?
-        <br><br>
-        We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'd like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyze your personal finances, joint finances with a partner, or family finances.
-        </h5>
-        """, unsafe_allow_html=True
-    )
+    st.markdown("<h2 class='section-header'>Step 1: Enter Your Expenses</h2>", unsafe_allow_html=True)
 
     # New Section: Enter Post-Tax Income
     st.markdown("<h4 class='section2-header'>Enter Your Post-Tax Income</h4>", unsafe_allow_html=True)
