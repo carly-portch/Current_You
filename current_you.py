@@ -53,7 +53,7 @@ def set_custom_styles():
         /* Button styling */
         .stButton>button {
             color: white;
-            background-color: #4B0082;
+            background-color: #fafafa;
             border-radius: 5px;
             padding: 0.6em 1.2em;
             font-weight: bold;
@@ -177,7 +177,7 @@ def main():
             st.warning("Please enter a category name.")
 
     # Input expense limit from Future You tool
-    st.subheader("Step 2: Enter Expense Limit from 'Future You' Tool")
+    st.markdown("<h2 class='section-header'>Step 2: Enter Expense Limit from 'Future You' Tool</h2>", unsafe_allow_html=True)
     future_you_limit = st.number_input("Enter the expense limit suggested by the Future You tool:", min_value=0.0, step=10.0)
 
     # Calculate total expenses
