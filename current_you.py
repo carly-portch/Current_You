@@ -96,7 +96,7 @@ def create_bar_chart(data, title):
     
     for bar in bars:
         height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01 * max(data.values()),
+        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01*max(data.values()),
                 f'${height:.2f}', ha='center', va='bottom')
         
     plt.tight_layout()
@@ -111,7 +111,7 @@ def main():
     # Description in the correct style
     st.markdown(
         "<div class='description'><h5>In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?<br><br>"
-        "We will analyze your spending categories to offer insights into your current expenses and compare them to the money you would like to spend on a monthly basis to reach your Future You goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyze your personal finances, joint finances with a partner, or family finances."
+        "We will analyse your spending categories to offer insights into your current expenses and compare them to the money you would like to spend on a monthly basis to reach your Future You goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyse your personal finances, joint finances with a partner, or family finances."
         "</h5></div>",
         unsafe_allow_html=True
     )
@@ -124,8 +124,10 @@ def main():
 
     # Initialize session state variables
     if 'fixed_expenses' not in st.session_state:
+        # Initialize with default fixed expense categories
         st.session_state.fixed_expenses = {'Housing': 0.0, 'Utilities': 0.0, 'Insurance': 0.0, 'Transportation': 0.0, 'Debt Payments': 0.0, 'Groceries': 0.0}
     if 'variable_expenses' not in st.session_state:
+        # Initialize with default variable expense categories
         st.session_state.variable_expenses = {'Fun (trips, vacations etc.)': 0.0}
 
     st.markdown("<h4 class='section2-header'>Fixed Expenses</h4>", unsafe_allow_html=True)
@@ -204,25 +206,20 @@ def main():
         difference = total_expenses - future_you_limit
 
         if difference <= 0:
-            st.markdown(
-                f"<h2 class='section-header'>You're within your budget! You have ${abs(difference):.2f} to spare.</h2>",
-                unsafe_allow_html=True
-            )
+            st.markdown("<h2 class='section-header'>Great news! Your expenses are ${:.2f} under your Future You limit. You're in a good place to invest in your goals or save for future fun!</h2>".format(abs(difference)), unsafe_allow_html=True)
         else:
-            st.markdown(
-                f"<h2 class='section-header'>You exceed your budget by ${difference:.2f}.</h2>",
-                unsafe_allow_html=True
-            )
+            st.markdown("<h2 class='section-header'>Heads up! Your expenses are ${:.2f} over your Future You limit. Consider adjusting your spending to align with your goals.</h2>".format(difference), unsafe_allow_html=True)
 
-        # Create pie chart of fixed and variable expenses
-        expense_data = {'Fixed Expenses': total_fixed, 'Variable Expenses': total_variable}
-        expense_pie_chart = create_pie_chart(expense_data, "Expense Breakdown")
-        st.pyplot(expense_pie_chart)
+        # Plot pie chart
+        expense_data = {**st.session_state.fixed_expenses, **st.session_state.variable_expenses}
+        expense_colors = ['#4CAF50' if amount <= future_you_limit else '#F44336' for amount in expense_data.values()]
 
-        # Create bar chart of all expenses
-        all_expenses_data = {**fixed_expenses_data, **variable_expenses_data}
-        expense_bar_chart = create_bar_chart(all_expenses_data, "Detailed Expense Breakdown")
-        st.pyplot(expense_bar_chart)
+        pie_chart = create_pie_chart(expense_data, "Expense Distribution", expense_colors)
+        st.pyplot(pie_chart)
+
+        # Plot bar chart
+        bar_chart = create_bar_chart(expense_data, "Total Expenses by Category")
+        st.pyplot(bar_chart)
 
 if __name__ == "__main__":
     main()
