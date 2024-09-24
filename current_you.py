@@ -205,7 +205,7 @@ def main():
         # Calculate difference between Total Expenses and Expense Limit
         difference = total_expenses - future_you_limit
 
-        if difference <= 0:
+        if difference < 0:
             st.markdown("<h2 class='section-header'>Great news! Your expenses are ${:.2f} under your Future You limit. This means you are on track to achieve the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses!</h2>".format(abs(difference)), unsafe_allow_html=True)
         elif difference == 0:
             st.markdown("<h2 class='section-header'>Great news! Your expenses are equal to your Future You limit. This means you are right on track to achieving the future you want if you keep your expenses to the limits you have defined above.</h2>".format(difference), unsafe_allow_html=True)
