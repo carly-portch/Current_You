@@ -52,8 +52,8 @@ def set_custom_styles():
         }
         /* Button styling */
         .stButton>button {
-            color: #fafafa;
-            background-color: #fafafa;
+            color: #e6e6fa;
+            background-color: #e6e6fa;
             border-radius: 5px;
             padding: 0.6em 1.2em;
             font-weight: bold;
