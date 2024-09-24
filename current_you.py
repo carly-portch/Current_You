@@ -29,6 +29,7 @@ def set_custom_styles():
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 30px;
+            font-family: 'Verdana', sans-serif;  /* Added font style */
         }
         
         /* Section headers */
@@ -53,7 +54,7 @@ def set_custom_styles():
         /* Button styling */
         .stButton>button {
             color: #e6e6fa;
-            background-color: #e6e6fa;
+            background-color: #2e6ef7; /* Changed for better contrast */
             border-radius: 5px;
             padding: 0.6em 1.2em;
             font-weight: bold;
@@ -104,12 +105,13 @@ def main():
 
     st.markdown("<h1 class='title'>The Current You Tool</h1>", unsafe_allow_html=True)
 
-<div class='description'>
-    <h5>In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?
-    
-    We will analyse your spending categories to offer insights into your current expenses and compare them to the money you would like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyse your personal finances, joint finances with a partner, or family finances.
-    </h5>
-</div>
+    # Description in the correct style
+    st.markdown(
+        "<div class='description'><h5>In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?"
+        "We will analyse your spending categories to offer insights into your current expenses and compare them to the money you would like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyse your personal finances, joint finances with a partner, or family finances."
+        "</h5></div>",
+        unsafe_allow_html=True
+    )
 
     st.markdown("<h2 class='section-header'>Step 1: Enter Your Expenses</h2>", unsafe_allow_html=True)
 
@@ -203,13 +205,9 @@ def main():
         st.pyplot(bar_chart)
 
         # Pie chart for overall expenses
-        overall_expenses_data = {**fixed_expenses_data, **variable_expenses_data}
-        pie_chart = create_pie_chart(overall_expenses_data, "Expense Breakdown")
+        overall_expenses_data = {'Total Expenses': total_expenses, 'Remaining Income': post_tax_income - total_expenses}
+        pie_chart = create_pie_chart(overall_expenses_data, "Overall Expenses vs Remaining Income")
         st.pyplot(pie_chart)
-
-        # Calculate remaining amount
-        remaining_amount = post_tax_income - total_expenses
-        st.write(f"**Remaining Amount:** ${remaining_amount:.2f}")
 
 if __name__ == "__main__":
     main()
