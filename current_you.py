@@ -11,12 +11,6 @@ def set_custom_styles():
         .stApp {
             background-color: #fafafa;
         }
-        /* Title and description */
-        .title {
-            color: #4B0082;  /* Indigo */
-            text-align: center;
-            margin-bottom: 20px;
-        }
         /* General styles */
         body {
             color: #333333;
@@ -59,7 +53,7 @@ def set_custom_styles():
         /* Button styling */
         .stButton>button {
             color: white;
-            background-color: #2e6ef7;
+            background-color: #4B0082;
             border-radius: 5px;
             padding: 0.6em 1.2em;
             font-weight: bold;
@@ -110,7 +104,7 @@ def main():
 
     st.markdown("<h1 class='title'>The Current You Tool</h1>", unsafe_allow_html=True)
 
-    st.subheader("Step 1: Enter Your Expenses")
+    st.markdown("<h2 class='section-header'>Step 1: Enter Your Expenses"</h2>)
 
     st.write("""
     In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?
