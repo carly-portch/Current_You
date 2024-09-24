@@ -172,10 +172,10 @@ def main():
         difference = total_expenses - future_you_limit
 
         if difference <= 0:
-            st.write(f"### Amazing! You are ${abs(difference):.2f} below your Future You limit.###")
+            st.write(f"### Amazing! You are ${abs(difference):.2f} below your Future You limit.")
             st.write("### You are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.")
         else:
-            st.write(f"### Uh oh! Your current expenses are ${difference:.2f} over what you need to meet your goals.###")
+            st.write(f"### Uh oh! Your current expenses are ${difference:.2f} over what you need to meet your goals.")
             st.write("### Your expenses exceed your Future You limit.")
 
             # Calculate fixed expenses ratio
