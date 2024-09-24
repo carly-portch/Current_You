@@ -229,9 +229,9 @@ def main():
             allocation_data = {
                 'Fixed Expenses': total_fixed,
                 'Variable Expenses': total_variable,
-                'Remaining Income': remaining_income
+                'Remaining Income (to put towards goals & savings)': remaining_income
             }
-            fig = create_pie_chart(allocation_data, 'Income and Expenses Breakdown', colors=['#ff9999', '#66b3ff', '#99ff99'])
+            fig = create_pie_chart(allocation_data, 'Income & Expenses Breakdown', colors=['#ff9999', '#66b3ff', '#99ff99'])
             st.pyplot(fig)
         else:
             # Pie chart without income
