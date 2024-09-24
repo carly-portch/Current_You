@@ -104,7 +104,7 @@ def main():
 
     st.markdown("<h1 class='title'>The Current You Tool</h1>", unsafe_allow_html=True)
 
-    st.markdown("<h2 class='section-header'>Step 1: Enter Your Expenses"</h2>)
+    st.markdown("<h2 class='section-header'>Step 1: Enter Your Expenses</h2>")
 
     st.write("""
     In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?
