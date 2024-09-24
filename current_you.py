@@ -184,7 +184,7 @@ def main():
 
     # Input expense limit from Future You tool
     st.markdown("<h2 class='section-header'>Step 2: Enter Expense Limit from 'Future You' Tool</h2>", unsafe_allow_html=True)
-    future_you_limit = st.number_input("Enter the expense limit suggested by the Future You tool (the red number at the bottom of the tool output):", min_value=0.0, step=10.0)
+    future_you_limit = st.number_input("Enter the monthly expense limit suggested by the Future You tool (the red number at the bottom of the Future You tool):", min_value=0.0, step=10.0)
 
     # Calculate total expenses
     if st.button("Calculate Expenses"):
