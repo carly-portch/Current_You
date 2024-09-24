@@ -113,7 +113,7 @@ def main():
     """)
 
     # New Section: Enter Post-Tax Income
-    st.subheader("Enter Your Post-Tax Income")
+    st.markdown("<h3 class='section2-header'>Enter Your Post-Tax Income</h3>", unsafe_allow_html=True)
     post_tax_income = st.number_input("Enter your monthly post-tax income:", min_value=0.0, step=100.0)
 
     # Initialize session state variables
@@ -124,7 +124,7 @@ def main():
         # Initialize with default variable expense categories
         st.session_state.variable_expenses = {'Fun (trips, vacations etc.)': 0.0}
 
-    st.subheader("Fixed Expenses")
+    st.markdown("<h3 class='section2-header'>Fixed Expenses</h3>", unsafe_allow_html=True)
     # Display fixed expenses inputs
     fixed_expenses_to_delete = []
     for category in st.session_state.fixed_expenses:
@@ -150,7 +150,7 @@ def main():
         else:
             st.warning("Please enter a category name.")
 
-    st.subheader("Variable Expenses")
+    st.markdown("<h3 class='section2-header'>Variable Expenses</h3>", unsafe_allow_html=True)
     # Display variable expenses inputs
     variable_expenses_to_delete = []
     for category in st.session_state.variable_expenses:
