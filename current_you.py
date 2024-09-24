@@ -206,11 +206,11 @@ def main():
         difference = total_expenses - future_you_limit
 
         if difference < 0:
-            st.markdown("<h2 class='section-header'>Great news! Your expenses are ${:.2f} under your Future You limit. This means you are on track to achieve the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses!</h2>".format(abs(difference)), unsafe_allow_html=True)
+            st.markdown("<h2 class='section-header'>Great news! Your expenses are ${:.2f} under your Future You limit. This means you are on track to achieving the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses!</h2>".format(abs(difference)), unsafe_allow_html=True)
         elif difference == 0:
-            st.markdown("<h2 class='section-header'>Great news! Your expenses match your Future You limit, meaning you're perfectly on track to achieving your future goals as long as you maintain the spending limits you've input above.</h2>".format(difference), unsafe_allow_html=True)
+            st.markdown("<h2 class='section-header'>Great news! Your expenses match your Future You limit, meaning you're perfectly on track to achieving your future goals as long as you maintain the spending limits you've input above!</h2>".format(difference), unsafe_allow_html=True)
         else:
-            st.markdown("<h2 class='section-header'>Uh oh! Your expenses are ${:.2f} over your Future You limit. This means that you are spending more than what is required to reach your Future You goals.</h2>".format(difference), unsafe_allow_html=True)
+            st.markdown("<h2 class='section-header'>Uh oh! Your expenses are ${:.2f} over your Future You limit. This means that you are spending more than what is required to reach your Future You goals. Consider playing around with your inputs in the Current You and Future You tools until you get these numbers to match.</h2>".format(difference), unsafe_allow_html=True)
 
        # Calculate fixed expenses ratio
             if total_expenses > 0:
@@ -219,9 +219,9 @@ def main():
                 fixed_ratio = 0
 
             if fixed_ratio > 0.65:
-                st.write("Hmm it looks like your fixed expenses are pretty high - these are the expenses that are not easily changeable month to month. This is worth really considering if your goals are possible right now, if you have any options to reduce your fixed expenses or if you have options for additional income.")
+                st.write("Insights: Hmm it looks like your fixed expenses are pretty high - these are the expenses that are not easily changeable month to month. This is worth really considering if your goals are possible right now, if you have any options to reduce your fixed expenses or if you have options for additional income.")
             else:
-                st.write("You currently have a fixed to variable expense ratio of less than 65% - this means that the amount of money you have to spend every month is not the problem, instead it’s the amount you’re choosing to spend on fun and elective spending. This can be uncomfortable to adjust but it's your decision to make if you would rather change your goals or what you spend each month.")
+                st.write("Insights: You currently have a fixed to variable expense ratio of less than 65% - this means that the amount of money you have to spend every month is not the problem, instead it’s the amount you’re choosing to spend on fun and elective spending. This can be uncomfortable to adjust but it's your decision to make if you would rather change your goals or what you spend each month.")
 
         # Pie chart with fixed expenses, variable expenses, and Remaining Income
         if post_tax_income > 0:
