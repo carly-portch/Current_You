@@ -202,15 +202,53 @@ def main():
         st.write(f"**Total Expenses:** ${total_expenses:.2f}")
         st.write(f"**Expense Limit (Future You):** ${future_you_limit:.2f}")
 
-        # Bar chart for fixed vs variable expenses
-        expense_data = {'Fixed Expenses': total_fixed, 'Variable Expenses': total_variable}
-        bar_chart = create_bar_chart(expense_data, "Fixed vs Variable Expenses")
-        st.pyplot(bar_chart)
+        # Calculate difference between Total Expenses and Expense Limit
+        difference = total_expenses - future_you_limit
 
-        # Pie chart for overall expenses
-        overall_expenses_data = {'Total Expenses': total_expenses, 'Remaining Income': post_tax_income - total_expenses}
-        pie_chart = create_pie_chart(overall_expenses_data, "Overall Expenses vs Remaining Income")
-        st.pyplot(pie_chart)
+        if difference <= 0:
+            st.write(f"**You are within your Expense Limit by ${abs(difference):.2f}.**")
+            st.write("### Amazing, you are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.")
+        else:
+            st.write(f"**Your current expenses are ${difference:.2f} higher than what you need to meet your goals.**")
+            st.write("### Uh oh! Your expenses exceed your Future You limit.")
+
+            # Calculate fixed expenses ratio
+            if total_expenses > 0:
+                fixed_ratio = total_fixed / total_expenses
+            else:
+                fixed_ratio = 0
+
+            if fixed_ratio > 0.65:
+                st.write("Hmm it looks like your fixed expenses are pretty high - these are the expenses that are not easily changeable month to month. This is worth really considering if your goals are possible right now, if you have any options to reduce your fixed expenses or if you have options for additional income.")
+            else:
+                st.write("You currently have a fixed to variable expense ratio of less than 65% - this means that the amount of money you have to spend every month is not the problem, instead it’s the amount you’re choosing to spend on fun and elective spending. This can be uncomfortable to adjust but it's your decision to make if you would rather change your goals or what you spend each month.")
+
+        # Pie chart with fixed expenses, variable expenses, and Remaining Income
+        if post_tax_income > 0:
+            remaining_income = post_tax_income - total_expenses
+            if remaining_income < 0:
+                remaining_income = 0
+            allocation_data = {
+                'Fixed Expenses': total_fixed,
+                'Variable Expenses': total_variable,
+                'Remaining Income': remaining_income
+            }
+            fig = create_pie_chart(allocation_data, 'Income and Expenses Breakdown', colors=['#ff9999', '#66b3ff', '#99ff99'])
+            st.pyplot(fig)
+        else:
+            # Pie chart without income
+            allocation_data = {
+                'Fixed Expenses': total_fixed,
+                'Variable Expenses': total_variable
+            }
+            fig = create_pie_chart(allocation_data, 'Expenses Breakdown', colors=['#ff9999', '#66b3ff'])
+            st.pyplot(fig)
+
+        # Bar chart for expense breakdown
+        all_expenses_data = {**fixed_expenses_data, **variable_expenses_data}
+        fig2 = create_bar_chart(all_expenses_data, 'Expense Breakdown by Category')
+        st.pyplot(fig2)
 
 if __name__ == "__main__":
     main()
+
