@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Set page config for better layout
+st.set_page_config(layout="wide")
+
 # Custom CSS for cleaner aesthetics
 def set_custom_styles():
     st.markdown(
