@@ -199,7 +199,7 @@ def main():
 
         st.write(f"**Total Fixed Expenses:** ${total_fixed:.2f}")
         st.write(f"**Total Variable Expenses:** ${total_variable:.2f}")
-        st.write(f"**Total Expenses:** ${total_expenses:.2f}")
+        st.write(f"**Total (Current You) Expenses:** ${total_expenses:.2f}")
         st.write(f"**Expense Limit (Future You):** ${future_you_limit:.2f}")
 
         # Calculate difference between Total Expenses and Expense Limit
