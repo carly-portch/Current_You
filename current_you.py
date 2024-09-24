@@ -206,11 +206,11 @@ def main():
         difference = total_expenses - future_you_limit
 
         if difference < 0:
-            st.markdown("<h2 class='section-header'>Great news! Your expenses are ${:.2f} under your Future You limit. This means you are on track to achieving the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses!</h2>".format(abs(difference)), unsafe_allow_html=True)
+            st.markdown("<h2 class='section-header'>Great news! Your expenses are ${:.2f} under your Future You limit. This means you are on track to achieving the future you want. You have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses. Consider playing around with your expenses and goals in the Current You and Future You tools until you reach your Future You expense limit.</h2>".format(abs(difference)), unsafe_allow_html=True)
         elif difference == 0:
             st.markdown("<h2 class='section-header'>Great news! Your expenses match your Future You limit, meaning you're perfectly on track to achieving your future goals as long as you maintain the spending limits you've input above!</h2>".format(difference), unsafe_allow_html=True)
         else:
-            st.markdown("<h2 class='section-header'>Uh oh! Your expenses are ${:.2f} over your Future You limit. This means that you are spending more than what is required to reach your Future You goals. Consider playing around with your inputs in the Current You and Future You tools until you get these numbers to match.</h2>".format(difference), unsafe_allow_html=True)
+            st.markdown("<h2 class='section-header'>Uh oh! Your expenses are ${:.2f} over your Future You limit. This means that you are spending more than what is required to reach your Future You goals. Consider playing around with your inputs in the Current You and Future You tools until you get your expenses to match your Future You expense limit.</h2>".format(difference), unsafe_allow_html=True)
 
        # Calculate fixed expenses ratio
             if total_expenses > 0:
