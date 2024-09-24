@@ -17,6 +17,42 @@ def set_custom_styles():
             font-family: 'Arial', sans-serif;
             font-weight: bold;
         }
+        st.markdown("""
+        <style>
+        /* General styles */
+        body {
+            color: #333333;
+            background-color: #f0f2f6;
+        }
+        
+        /* Title and description */
+        .title {
+            color: #4B0082;  /* Indigo */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .description {
+            background-color: #e6e6fa;  /* Lavender */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        /* Section headers */
+        .section-header {
+            color: #4B0082;  /* Indigo */
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        
+        /* Section2 headers */
+        .section2-header {
+            color: black;  /* Black */
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
         /* Text styling */
         .stApp p, .stApp div, .stApp span, .stApp label {
             color: #4f4f4f;
@@ -75,6 +111,7 @@ def main():
     set_custom_styles()
 
     st.title("Current You Tool")
+    st.markdown("<h1 class='title'>The Current You Tool</h1>", unsafe_allow_html=True)
 
     st.subheader("Step 1: Enter Your Expenses")
 
