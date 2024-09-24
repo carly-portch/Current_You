@@ -84,27 +84,69 @@ def main():
     We’ll analyze your spending categories to offer insights into your current expenses and compare them to the money you'd like to spend on a monthly basis to reach your future you goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start.
     """)
 
+    # New Section: Enter Post-Tax Income
+    st.subheader("Enter Your Post-Tax Income")
+    post_tax_income = st.number_input("Enter your monthly post-tax income:", min_value=0.0, step=100.0)
+
     # Initialize session state variables
     if 'fixed_expenses' not in st.session_state:
-        st.session_state.fixed_expenses = {}
+        # Initialize with default fixed expense categories
+        st.session_state.fixed_expenses = {'Housing': 0.0, 'Utilities': 0.0, 'Insurance': 0.0, 'Transportation': 0.0, 'Debt Payments': 0.0, 'Groceries': 0.0}
     if 'variable_expenses' not in st.session_state:
-        st.session_state.variable_expenses = {}
-
-    # Expense categories
-    fixed_categories = ['Housing', 'Utilities', 'Insurance', 'Transportation', 'Debt Payments', 'Groceries']
-    variable_categories = ['Fun (trips, vacations etc.)']
+        # Initialize with default variable expense categories
+        st.session_state.variable_expenses = {'Fun (trips, vacations etc.)': 0.0}
 
     st.subheader("Fixed Expenses")
-    fixed_expenses_data = {}
-    for category in fixed_categories:
-        amount = st.number_input(f"{category}:", min_value=0.0, step=10.0)
-        fixed_expenses_data[category] = amount
+    # Display fixed expenses inputs
+    fixed_expenses_to_delete = []
+    for category in st.session_state.fixed_expenses:
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            amount = st.number_input(f"{category}:", min_value=0.0, step=10.0, key=f"fixed_{category}")
+            st.session_state.fixed_expenses[category] = amount
+        with col2:
+            if st.button("Delete", key=f"delete_fixed_{category}"):
+                fixed_expenses_to_delete.append(category)
+    # Remove deleted fixed expense categories
+    for category in fixed_expenses_to_delete:
+        del st.session_state.fixed_expenses[category]
+
+    # Add new fixed expense category
+    new_fixed_category = st.text_input("Add a new fixed expense category:")
+    if st.button("Add Fixed Expense Category"):
+        if new_fixed_category:
+            if new_fixed_category not in st.session_state.fixed_expenses:
+                st.session_state.fixed_expenses[new_fixed_category] = 0.0
+            else:
+                st.warning("Category already exists.")
+        else:
+            st.warning("Please enter a category name.")
 
     st.subheader("Variable Expenses")
-    variable_expenses_data = {}
-    for category in variable_categories:
-        amount = st.number_input(f"{category}:", min_value=0.0, step=10.0)
-        variable_expenses_data[category] = amount
+    # Display variable expenses inputs
+    variable_expenses_to_delete = []
+    for category in st.session_state.variable_expenses:
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            amount = st.number_input(f"{category}:", min_value=0.0, step=10.0, key=f"variable_{category}")
+            st.session_state.variable_expenses[category] = amount
+        with col2:
+            if st.button("Delete", key=f"delete_variable_{category}"):
+                variable_expenses_to_delete.append(category)
+    # Remove deleted variable expense categories
+    for category in variable_expenses_to_delete:
+        del st.session_state.variable_expenses[category]
+
+    # Add new variable expense category
+    new_variable_category = st.text_input("Add a new variable expense category:")
+    if st.button("Add Variable Expense Category"):
+        if new_variable_category:
+            if new_variable_category not in st.session_state.variable_expenses:
+                st.session_state.variable_expenses[new_variable_category] = 0.0
+            else:
+                st.warning("Category already exists.")
+        else:
+            st.warning("Please enter a category name.")
 
     # Input expense limit from Future You tool
     st.subheader("Step 2: Enter Expense Limit from 'Future You' Tool")
@@ -112,51 +154,67 @@ def main():
 
     # Calculate total expenses
     if st.button("Calculate Expenses"):
-        total_expenses = sum(fixed_expenses_data.values()) + sum(variable_expenses_data.values())
-        fixed_total = sum(fixed_expenses_data.values())
-        variable_total = sum(variable_expenses_data.values())
+        fixed_expenses_data = st.session_state.fixed_expenses
+        variable_expenses_data = st.session_state.variable_expenses
+
+        total_fixed = sum(fixed_expenses_data.values())
+        total_variable = sum(variable_expenses_data.values())
+        total_expenses = total_fixed + total_variable
 
         st.subheader("Results")
 
-        st.write(f"**Total Fixed Expenses:** ${fixed_total:.2f}")
-        st.write(f"**Total Variable Expenses:** ${variable_total:.2f}")
+        st.write(f"**Total Fixed Expenses:** ${total_fixed:.2f}")
+        st.write(f"**Total Variable Expenses:** ${total_variable:.2f}")
         st.write(f"**Total Expenses:** ${total_expenses:.2f}")
         st.write(f"**Expense Limit (Future You):** ${future_you_limit:.2f}")
 
-        # Check if total expenses exceed, match, or are below Future You limit
-        if total_expenses > future_you_limit:
-            over_limit = total_expenses - future_you_limit
-            st.write(f"### Uh oh! You are over your Future You limit by ${over_limit:.2f}. Consider adjusting your expenses or revisiting the Future You tool.")
+        # Calculate difference between Total Expenses and Expense Limit
+        difference = total_expenses - future_you_limit
 
-            # Calculate percentages for pie chart
-            over_percentage = (over_limit/future_you_limit) * 100
-            allocation_data = {
-                'Future You Limit': future_you_limit,
-                f'Exceedance of Future You Limit': over_limit
-            }
-
-            # Pie chart showing over limit as percentage of the goal
-            fig2 = create_pie_chart(allocation_data, 'Expenses vs Future You Limit', colors=['#ff9999', '#66b3ff'])
-            st.pyplot(fig2)
-
-        elif total_expenses == future_you_limit:
-            st.write(f"### Great! Your current expenses are in line with your Future You goals. This means you are on track to achieve your future goals, while also living life as you are today.")
-
+        if difference <= 0:
+            st.write(f"**You are within your Expense Limit by ${abs(difference):.2f}.**")
+            st.write("### Amazing, you are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.")
         else:
-            st.write(f"### Great! You are under your Future You limit by ${future_you_limit - total_expenses:.2f}.")
-            
-            # Pie chart showing remaining limit
+            st.write(f"**Your current expenses are ${difference:.2f} higher than what you need to meet your goals.**")
+            st.write("### Uh oh! Your expenses exceed your Future You limit.")
+
+            # Calculate fixed expenses ratio
+            if total_expenses > 0:
+                fixed_ratio = total_fixed / total_expenses
+            else:
+                fixed_ratio = 0
+
+            if fixed_ratio > 0.65:
+                st.write("Hmm it looks like your fixed expenses are pretty high - these are the expenses that are not easily changeable month to month. This is worth really considering if your goals are possible right now, if you have any options to reduce your fixed expenses or if you have options for additional income.")
+            else:
+                st.write("You currently have a fixed to variable expense ratio of less than 65% - this means that the amount of money you have to spend every month is not the problem, instead it’s the amount you’re choosing to spend on fun and elective spending. This can be uncomfortable to adjust but it's your decision to make if you would rather change your goals or what you spend each month.")
+
+        # Pie chart with fixed expenses, variable expenses, and Remaining Income
+        if post_tax_income > 0:
+            remaining_income = post_tax_income - total_expenses
+            if remaining_income < 0:
+                remaining_income = 0
             allocation_data = {
-                'Expenses': total_expenses,
-                'Remaining from Future You Limit': future_you_limit - total_expenses
+                'Fixed Expenses': total_fixed,
+                'Variable Expenses': total_variable,
+                'Remaining Income': remaining_income
             }
-            fig2 = create_pie_chart(allocation_data, 'Comparison to Future You Limit', colors=['#ff9999', '#66b3ff'])
-            st.pyplot(fig2)
+            fig = create_pie_chart(allocation_data, 'Income and Expenses Breakdown', colors=['#ff9999', '#66b3ff', '#99ff99'])
+            st.pyplot(fig)
+        else:
+            # Pie chart without income
+            allocation_data = {
+                'Fixed Expenses': total_fixed,
+                'Variable Expenses': total_variable
+            }
+            fig = create_pie_chart(allocation_data, 'Expenses Breakdown', colors=['#ff9999', '#66b3ff'])
+            st.pyplot(fig)
 
         # Bar chart for expense breakdown
         all_expenses_data = {**fixed_expenses_data, **variable_expenses_data}
-        fig = create_bar_chart(all_expenses_data, 'Expense Breakdown')
-        st.pyplot(fig)
+        fig2 = create_bar_chart(all_expenses_data, 'Expense Breakdown by Category')
+        st.pyplot(fig2)
 
 if __name__ == "__main__":
     main()
+
