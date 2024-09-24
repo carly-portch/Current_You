@@ -208,7 +208,7 @@ def main():
         if difference < 0:
             st.markdown("<h2 class='section-header'>Great news! Your expenses are ${:.2f} under your Future You limit. This means you are on track to achieve the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses!</h2>".format(abs(difference)), unsafe_allow_html=True)
         elif difference == 0:
-            st.markdown("<h2 class='section-header'>"Great news! Your expenses match your Future You limit, meaning you're perfectly on track to achieve your future goals as long as you maintain the spending limits you've input above.</h2>".format(difference), unsafe_allow_html=True)
+            st.markdown("<h2 class='section-header'>Great news! Your expenses match your Future You limit, meaning you're perfectly on track to achieve your future goals as long as you maintain the spending limits you've input above.</h2>".format(difference), unsafe_allow_html=True)
         else:
             st.markdown("<h2 class='section-header'>Uh oh! Your expenses are ${:.2f} over your Future You limit. This means that you are spending more than what is required to reach your Future You goals.</h2>".format(difference), unsafe_allow_html=True)
 
