@@ -206,10 +206,10 @@ def main():
         difference = total_expenses - future_you_limit
 
         if difference <= 0:
-            st.markdown("<h2 class='section-header'>Amazing! Your expenses are ${abs(difference):.2f} lower than your Future You limit. You are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.</h2>", unsafe_allow_html=True)
+            st.markdown("f<h2 class='section-header'>Amazing! Your expenses are ${abs(difference):.2f} lower than your Future You limit. You are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.</h2>", unsafe_allow_html=True)
 
         else:
-            st.markdown("<h2 class='section-header'>Uh oh! Your expenses exceed your Future You limit by ${difference:.2f}.</h2>", unsafe_allow_html=True)
+            st.markdown("f<h2 class='section-header'>Uh oh! Your expenses exceed your Future You limit by ${difference:.2f}.</h2>", unsafe_allow_html=True)
 
             # Calculate fixed expenses ratio
             if total_expenses > 0:
