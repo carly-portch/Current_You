@@ -96,7 +96,7 @@ def create_bar_chart(data, title):
     
     for bar in bars:
         height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01*max(data.values()),
+        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01 * max(data.values()),
                 f'${height:.2f}', ha='center', va='bottom')
         
     plt.tight_layout()
@@ -111,7 +111,7 @@ def main():
     # Description in the correct style
     st.markdown(
         "<div class='description'><h5>In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?<br><br>"
-        "We will analyse your spending categories to offer insights into your current expenses and compare them to the money you would like to spend on a monthly basis to reach your Future You goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyse your personal finances, joint finances with a partner, or family finances."
+        "We will analyze your spending categories to offer insights into your current expenses and compare them to the money you would like to spend on a monthly basis to reach your Future You goals. When entering your expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyze your personal finances, joint finances with a partner, or family finances."
         "</h5></div>",
         unsafe_allow_html=True
     )
@@ -124,10 +124,8 @@ def main():
 
     # Initialize session state variables
     if 'fixed_expenses' not in st.session_state:
-        # Initialize with default fixed expense categories
         st.session_state.fixed_expenses = {'Housing': 0.0, 'Utilities': 0.0, 'Insurance': 0.0, 'Transportation': 0.0, 'Debt Payments': 0.0, 'Groceries': 0.0}
     if 'variable_expenses' not in st.session_state:
-        # Initialize with default variable expense categories
         st.session_state.variable_expenses = {'Fun (trips, vacations etc.)': 0.0}
 
     st.markdown("<h4 class='section2-header'>Fixed Expenses</h4>", unsafe_allow_html=True)
@@ -206,48 +204,25 @@ def main():
         difference = total_expenses - future_you_limit
 
         if difference <= 0:
-            st.markdown("<h2 class='section-header'>Amazing! Your expenses are ${abs(difference):.2f} lower than your Future You limit. You are on track to the future you want and even have some extra money you can allocate to having fun, additional goals or leveling up your fixed expenses.</h2>".format(abs(difference)), unsafe_allow_html=True)
-
+            st.markdown(
+                f"<h2 class='section-header'>You're within your budget! You have ${abs(difference):.2f} to spare.</h2>",
+                unsafe_allow_html=True
+            )
         else:
-            st.markdown("f<h2 class='section-header'>Uh oh! Your expenses exceed your Future You limit by ${difference:.2f}.</h2>", unsafe_allow_html=True)
+            st.markdown(
+                f"<h2 class='section-header'>You exceed your budget by ${difference:.2f}.</h2>",
+                unsafe_allow_html=True
+            )
 
-            # Calculate fixed expenses ratio
-            if total_expenses > 0:
-                fixed_ratio = total_fixed / total_expenses
-            else:
-                fixed_ratio = 0
+        # Create pie chart of fixed and variable expenses
+        expense_data = {'Fixed Expenses': total_fixed, 'Variable Expenses': total_variable}
+        expense_pie_chart = create_pie_chart(expense_data, "Expense Breakdown")
+        st.pyplot(expense_pie_chart)
 
-            if fixed_ratio > 0.65:
-                st.write("Hmm it looks like your fixed expenses are pretty high - these are the expenses that are not easily changeable month to month. This is worth really considering if your goals are possible right now, if you have any options to reduce your fixed expenses or if you have options for additional income.")
-            else:
-                st.write("You currently have a fixed to variable expense ratio of less than 65% - this means that the amount of money you have to spend every month is not the problem, instead it’s the amount you’re choosing to spend on fun and elective spending. This can be uncomfortable to adjust but it's your decision to make if you would rather change your goals or what you spend each month.")
-
-        # Pie chart with fixed expenses, variable expenses, and Remaining Income
-        if post_tax_income > 0:
-            remaining_income = post_tax_income - total_expenses
-            if remaining_income < 0:
-                remaining_income = 0
-            allocation_data = {
-                'Fixed Expenses': total_fixed,
-                'Variable Expenses': total_variable,
-                'Remaining Income': remaining_income
-            }
-            fig = create_pie_chart(allocation_data, 'Income and Expenses Breakdown', colors=['#ff9999', '#66b3ff', '#99ff99'])
-            st.pyplot(fig)
-        else:
-            # Pie chart without income
-            allocation_data = {
-                'Fixed Expenses': total_fixed,
-                'Variable Expenses': total_variable
-            }
-            fig = create_pie_chart(allocation_data, 'Expenses Breakdown', colors=['#ff9999', '#66b3ff'])
-            st.pyplot(fig)
-
-        # Bar chart for expense breakdown
+        # Create bar chart of all expenses
         all_expenses_data = {**fixed_expenses_data, **variable_expenses_data}
-        fig2 = create_bar_chart(all_expenses_data, 'Expense Breakdown by Category')
-        st.pyplot(fig2)
+        expense_bar_chart = create_bar_chart(all_expenses_data, "Detailed Expense Breakdown")
+        st.pyplot(expense_bar_chart)
 
 if __name__ == "__main__":
     main()
-
