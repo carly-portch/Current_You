@@ -52,7 +52,7 @@ def set_custom_styles():
         }
         /* Button styling */
         .stButton>button {
-            color: white;
+            color: #fafafa;
             background-color: #fafafa;
             border-radius: 5px;
             padding: 0.6em 1.2em;
