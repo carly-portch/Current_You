@@ -11,11 +11,11 @@ def set_custom_styles():
         .stApp {
             background-color: #fafafa;
         }
-        /* Title and Subheader styling */
-        .stApp h1, .stApp h2 {
-            color: #3a3a3a;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
+        /* Title and description */
+        .title {
+            color: #4B0082;  /* Indigo */
+            text-align: center;
+            margin-bottom: 20px;
         }
         /* General styles */
         body {
@@ -108,7 +108,6 @@ def main():
     # Apply custom styles
     set_custom_styles()
 
-    st.title("Current You Tool")
     st.markdown("<h1 class='title'>The Current You Tool</h1>", unsafe_allow_html=True)
 
     st.subheader("Step 1: Enter Your Expenses")
