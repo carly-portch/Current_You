@@ -199,7 +199,6 @@ def main():
 
         st.markdown(f"<h5 style='color: black;'>Total Monthly Expenses (Current You):<span style='color: #D22B2B;'><b> ${total_expenses:.2f}")
         st.markdown(f"<h5 style='color: black;'>Expense Limit (Future You):<span style='color: indigo;'><b> ${future_you_limit:.2f}")
-            st.markdown(f"<h5 style='color: black;'>1) Monthly contribution towards goals: <span style='color: #D22B2B;'><b>${int(round(total_contribution))}</b></span></h5>", unsafe_allow_html=True)
 
         # Calculate difference between Total Expenses and Expense Limit
         difference = total_expenses - future_you_limit
