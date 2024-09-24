@@ -197,10 +197,9 @@ def main():
 
         st.markdown("<h2 class='section-header'>Results</h2>", unsafe_allow_html=True)
 
-        st.write(f"**Total Fixed Expenses:** ${total_fixed:.2f}")
-        st.write(f"**Total Variable Expenses:** ${total_variable:.2f}")
-        st.write(f"**Total (Current You) Expenses:** ${total_expenses:.2f}")
-        st.write(f"**Expense Limit (Future You):** ${future_you_limit:.2f}")
+        st.markdown(f"<h5 style='color: black;'>Total Monthly Expenses (Current You):<span style='color: #D22B2B;'><b> ${total_expenses:.2f}")
+        st.markdown(f"<h5 style='color: black;'>Expense Limit (Future You):<span style='color: indigo;'><b> ${future_you_limit:.2f}")
+            st.markdown(f"<h5 style='color: black;'>1) Monthly contribution towards goals: <span style='color: #D22B2B;'><b>${int(round(total_contribution))}</b></span></h5>", unsafe_allow_html=True)
 
         # Calculate difference between Total Expenses and Expense Limit
         difference = total_expenses - future_you_limit
