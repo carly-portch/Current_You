@@ -40,7 +40,7 @@ def set_custom_styles():
         
         /* Section2 headers */
         .section2-header {
-            color: "black";  /* Black */
+            color: black;  /* Black */
             margin-top: 10px;
             margin-bottom: 10px;
         }
@@ -113,7 +113,7 @@ def main():
     """)
 
     # New Section: Enter Post-Tax Income
-    st.markdown("<h3 class='section2-header'>Enter Your Post-Tax Income</h3>", unsafe_allow_html=True)
+    st.markdown("<h2 class='section2-header'>Enter Your Post-Tax Income</h2>", unsafe_allow_html=True)
     post_tax_income = st.number_input("Enter your monthly post-tax income:", min_value=0.0, step=100.0)
 
     # Initialize session state variables
