@@ -110,8 +110,8 @@ def main():
 
     # Description in the correct style
     st.markdown(
-        "<div class='description'><h5>In this tool, we focus on getting to know your current financial habits. What do you currently spend your money on?<br><br>"
-        "Use this tool in combination with the 'Future You' tool to balance your current and future desires! When entering your current monthly expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyse your personal finances, joint finances with a partner, or family finances."
+        "<div class='description'><h5>This tool helps us understand your current financial habits. Use this tool in combination with the 'Future You' tool to balance your current and future desires!<br><br>"
+        "When entering your current monthly expenses, aim for accuracy to get the best insights. Using the past three months of income and spending as a guide will help provide an average for a typical month. Reviewing your credit card and bank statements is a great way to start. Please feel free to use this to analyse your personal finances, joint finances with a partner, or family finances."
         "</h5></div>",
         unsafe_allow_html=True
     )
